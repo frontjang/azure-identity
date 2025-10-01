@@ -1,16 +1,31 @@
+import type { AccessToken } from "@azure/identity";
 import { DeviceCodeCredential, useIdentityPlugin } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 
+interface DeviceCodeAuthenticationOptions {
+  tenantId: string;
+  clientId: string;
+  cacheName?: string;
+}
+
+interface AuthenticateWithDeviceCodeOptions extends DeviceCodeAuthenticationOptions {
+  scopes: string[];
+}
+
 let isPluginRegistered = false;
 
-function ensureCachePluginRegistered() {
+function ensureCachePluginRegistered(): void {
   if (!isPluginRegistered) {
     useIdentityPlugin(cachePersistencePlugin);
     isPluginRegistered = true;
   }
 }
 
-export function createDeviceCodeCredential({ tenantId, clientId, cacheName }) {
+export function createDeviceCodeCredential({
+  tenantId,
+  clientId,
+  cacheName
+}: DeviceCodeAuthenticationOptions): DeviceCodeCredential {
   ensureCachePluginRegistered();
 
   return new DeviceCodeCredential({
@@ -29,7 +44,12 @@ export function createDeviceCodeCredential({ tenantId, clientId, cacheName }) {
   });
 }
 
-export async function authenticateWithDeviceCode({ tenantId, clientId, scopes, cacheName }) {
+export async function authenticateWithDeviceCode({
+  tenantId,
+  clientId,
+  scopes,
+  cacheName
+}: AuthenticateWithDeviceCodeOptions): Promise<AccessToken> {
   const credential = createDeviceCodeCredential({ tenantId, clientId, cacheName });
   return credential.getToken(scopes);
 }

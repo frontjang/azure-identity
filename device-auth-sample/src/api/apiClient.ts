@@ -1,11 +1,26 @@
-export async function callProtectedEndpoint({ endpoint, accessToken }) {
+export interface CallProtectedEndpointOptions {
+  endpoint: string;
+  accessToken: string;
+}
+
+export interface ApiCallResult {
+  ok: boolean;
+  status: number;
+  data?: unknown;
+  errorBody?: string;
+}
+
+export async function callProtectedEndpoint({
+  endpoint,
+  accessToken
+}: CallProtectedEndpointOptions): Promise<ApiCallResult> {
   const response = await fetch(endpoint, {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
   });
 
-  const result = {
+  const result: ApiCallResult = {
     ok: response.ok,
     status: response.status
   };

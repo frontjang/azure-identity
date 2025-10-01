@@ -2,7 +2,7 @@ import { authenticateWithDeviceCode } from "./auth/authentication.js";
 import { callProtectedEndpoint } from "./api/apiClient.js";
 import { loadConfiguration } from "./config.js";
 
-async function run() {
+async function run(): Promise<void> {
   try {
     const { tenantId, clientId, endpoint } = await loadConfiguration();
 
@@ -40,4 +40,4 @@ async function run() {
   }
 }
 
-run();
+void run();
