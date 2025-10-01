@@ -1,0 +1,23 @@
+{
+  "name": "device-auth-sample",
+  "version": "1.0.0",
+  "description": "Node.js sample for Azure AD device code authentication with cached configuration.",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/cli.js"
+  },
+  "keywords": [
+    "azure",
+    "device-code",
+    "authentication",
+    "node"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/identity": "^4.12.0",
+    "@azure/identity-cache-persistence": "^1.2.0",
+    "dotenv": "^16.4.5"
+  }
+}

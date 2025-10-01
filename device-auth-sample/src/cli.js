@@ -1,10 +1,11 @@
-import { authenticateWithDeviceCode } from "./auth/authentication";
-import { callProtectedEndpoint } from "./api/apiClient";
-import { promptForUserInput } from "./prompts";
+import { authenticateWithDeviceCode } from "./auth/authentication.js";
+import { callProtectedEndpoint } from "./api/apiClient.js";
+import { loadConfiguration } from "./config.js";
 
-async function run(): Promise<void> {
+async function run() {
   try {
-    const { tenantId, clientId, endpoint } = await promptForUserInput();
+    const { tenantId, clientId, endpoint } = await loadConfiguration();
+
     if (!tenantId || !clientId) {
       throw new Error("Tenant ID and Client ID are required to authenticate.");
     }
@@ -40,4 +41,3 @@ async function run(): Promise<void> {
 }
 
 run();
-
